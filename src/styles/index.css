@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* Geist Sans Vairable */
+@font-face {
+  font-family: "Geist Sans";
+  src: url("/fonts/Geist[wght].woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* JetBrains Mono Regular */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* JetBrains Mono Medium */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Geist Pixel */
+@font-face {
+  font-family: "Geist Pixel";
+  src: url("/fonts/GeistPixel-Grid.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== Base Design Tokens ===== */
+:root {
+  /* Borders */
+  --border-medium: 2px;
+  --border-thick: 3px;
+  --border-extra-thick: 4px;
+
+  /* Radius */
+  --radius-lg-inset: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl-inset: 0.625rem;
+  --radius-xl: 0.75rem;
+
+  /* Layout */
+  --layout-gap: 0.5rem;
+  --layout-padding: 0.5rem;
+
+  /* Gradient */
+  --gradient-main: linear-gradient(
+    180deg,
+    var(--gradient-start) 0%,
+    var(--gradient-end) 100%
+  );
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+}
+
+/* ===== Tailwind Theme Mapping ===== */
+@theme {
+  --font-ui: "Geist Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-pixel: "Geist Pixel", monospace;
+
+  --color-surface: var(--bg-main);
+  --color-panel: var(--bg-accent);
+  --color-outline: var(--border-primary);
+  --color-ink: var(--text);
+  --color-fade: var(--faded);
+  --color-paper: var(--window);
+
+  --shadow-window: var(--shadow-window);
+
+  --radius-card: var(--radius-lg);
+  --radius-window: var(--radius-xl);
+
+  --border-width-medium: var(--border-medium);
+  --border-width-thick: var(--border-thick);
+  --border-width-extra-thick: var(--border-extra-thick);
+
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-6: var(--space-6);
+}
+
+@layer utilities {
+  .bg-gradient {
+    background: var(--gradient-main);
+  }
+
+  .window-frame {
+    --parent-radius: var(--radius-window);
+    --parent-border-width: var(--border-width-extra-thick);
+
+    border-radius: var(--parent-radius);
+    border-width: var(--parent-border-width);
+  }
+
+  .inset-radius {
+    border-radius: calc(var(--parent-radius) - var(--parent-border-width));
+  }
+
+  .inset-radius-t {
+    border-top-left-radius: calc(
+      var(--parent-radius) - var(--parent-border-width)
+    );
+    border-top-right-radius: calc(
+      var(--parent-radius) - var(--parent-border-width)
+    );
+  }
+
+  .inset-radius-b {
+    border-bottom-left-radius: calc(
+      var(--parent-radius) - var(--parent-border-width)
+    );
+    border-bottom-right-radius: calc(
+      var(--parent-radius) - var(--parent-border-width)
+    );
+  }
+}

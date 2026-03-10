@@ -1,0 +1,29 @@
+:root.light {
+  --bg-main: #c5a4fb;
+  --bg-accent: #9798fd;
+  --border-primary: #513194;
+
+  --text: #fff4f9;
+  --window: #fff4f9;
+  --faded: hsla(333, 100%, 98%, 0.3);
+
+  --gradient-start: hsla(232, 91%, 69%, 1);
+  --gradient-end: hsla(323, 81%, 79%, 1);
+
+  --shadow-window: 0 18px 40px hsla(259, 50%, 39%, 0.25);
+}
+
+:root.dark {
+  --bg-main: #1e1b2e; /* deep indigo night */
+  --bg-accent: #2a2550; /* muted violet glow */
+  --border-primary: #6c4ccf; /* softened bright purple */
+
+  --text: #f7efff; /* soft lavender-white */
+  --window: #2c2748; /* dark window panel */
+  --faded: hsla(333, 100%, 98%, 0.3);
+
+  --gradient-start: hsla(245, 55%, 45%, 1);
+  --gradient-end: hsla(290, 45%, 55%, 1);
+
+  --shadow-window: 0 20px 50px hsla(255, 58%, 55%, 0.35);
+}

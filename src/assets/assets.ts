@@ -1,0 +1,1 @@
+export { default as kuro } from "./images/kuro-chibi.png";
