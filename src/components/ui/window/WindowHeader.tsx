@@ -19,7 +19,7 @@ export default function WindowHeader({
   return (
     <div
       onPointerDown={handlePointerDown}
-      className="bg-surface border-b-thick border-outline select-none"
+      className="bg-surface border-b-thick border-outline select-none touch-none"
     >
       <div className="px-2 py-1 flex justify-between items-center">
         <div className="text-outline font-mono font-medium">{title}</div>

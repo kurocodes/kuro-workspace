@@ -1,5 +1,6 @@
+import { wallpaper } from "../assets/assets";
 import Desktop from "../components/layout/Desktop";
-import Footer from "../components/layout/Footer";
+import Footer from "../components/layout/footer/Footer";
 import Navbar from "../components/layout/Navbar";
 
 export default function App() {

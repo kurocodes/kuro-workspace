@@ -8,11 +8,14 @@ interface WindowIconProps {
 export default function WindowIcon({ variant, onClick }: WindowIconProps) {
   return (
     <div
-      onPointerDown={(e) => e.stopPropagation()}
-      onClick={(e) => {
+      onPointerDown={(e) => {
         e.stopPropagation();
         onClick?.();
       }}
+      // onClick={(e) => {
+      //   e.stopPropagation();
+      //   onClick?.();
+      // }}
       className="group"
     >
       {variant === "maximize" && (
@@ -24,7 +27,7 @@ export default function WindowIcon({ variant, onClick }: WindowIconProps) {
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         >
           <rect
             x="3"

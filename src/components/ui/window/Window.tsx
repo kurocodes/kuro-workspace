@@ -33,8 +33,12 @@ export default function Window({
 }: WindowProps) {
   return (
     <motion.div
+      // layout
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0, opacity: 0 }}
       onPointerDown={handleFocus}
-      className={`absolute border-thick border-outline rounded-card overflow-hidden shadow-window ${className}`}
+      className={`absolute border-thick border-outline rounded-card overflow-hidden shadow-window origin-bottom touch-none ${className}`}
       style={{
         x,
         y,
