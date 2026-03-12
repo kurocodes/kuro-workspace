@@ -6,10 +6,15 @@ type Particle = {
   originX: number;
   originY: number;
   radius: number;
-  color: string;
+  r: number;
+  g: number;
+  b: number;
 };
 
 const FAR = -10000;
+const SPACING = 10;
+const INFLUENCE = 100;
+const INFLUENCE_SQ = INFLUENCE * INFLUENCE;
 
 export default function Scene({
   image,
@@ -23,23 +28,43 @@ export default function Scene({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
+    // Setup
     const canvas = canvasRef.current;
     if (!canvas || !image) return;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const pointer = { x: FAR, y: FAR };
+    const particles: Particle[] = [];
+
+    // Pointer Interaction
+    const handlePointerMove = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = e.clientX - rect.left;
+      pointer.y = e.clientY - rect.top;
+    };
+
+    const handlePointerLeave = () => {
+      pointer.x = FAR;
+      pointer.y = FAR;
+    };
+
+    canvas.addEventListener("pointermove", handlePointerMove);
+    canvas.addEventListener("pointerleave", handlePointerLeave);
+
+    // Image Loading
     const img = new Image();
     img.src = image;
 
-    const particles: Particle[] = [];
-
     img.onload = () => {
+      // Canvas Size
       const rect = canvas.getBoundingClientRect();
 
       canvas.width = rect.width;
       canvas.height = rect.height;
 
+      // Cover Scaling
       const canvasRatio = canvas.width / canvas.height;
       const imageRatio = img.width / img.height;
 
@@ -77,36 +102,20 @@ export default function Scene({
 
       ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
 
+      // Image Sampling
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       const data = imageData.data;
 
-      const spacing = 10;
-
-      const mouse = {
-        x: FAR,
-        y: FAR,
-      };
-
-      canvas.addEventListener("mousemove", (e) => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
-      });
-      canvas.addEventListener("mouseleave", () => {
-        mouse.x = FAR;
-        mouse.y = FAR;
-      });
-
-      for (let y = 0; y < canvas.height; y += spacing) {
-        for (let x = 0; x < canvas.width; x += spacing) {
+      // Particle Creation
+      for (let y = 0; y < canvas.height; y += SPACING) {
+        for (let x = 0; x < canvas.width; x += SPACING) {
           const index = (y * canvas.width + x) * 4;
 
           const r = data[index];
           const g = data[index + 1];
           const b = data[index + 2];
 
-          const maxRadius = spacing / 2;
-          const radius = maxRadius;
+          const radius = SPACING * 0.45;
 
           particles.push({
             x,
@@ -114,31 +123,33 @@ export default function Scene({
             originX: x,
             originY: y,
             radius,
-            color: `rgb(${r},${g},${b})`,
+            r,
+            g,
+            b,
           });
         }
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      // Rendering
       function drawParticles() {
         if (!ctx) return;
 
         ctx.clearRect(0, 0, canvas!.width, canvas!.height);
 
         particles.forEach((p) => {
-          const dx = p.x - mouse.x;
-          const dy = p.y - mouse.y;
+          const dx = p.x - pointer.x;
+          const dy = p.y - pointer.y;
 
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          const influence = 120;
+          if (distSq < INFLUENCE_SQ) {
+            const dist = Math.sqrt(distSq); // only when needed
+            const force = (INFLUENCE - dist) / INFLUENCE;
 
-          if (dist < influence) {
-            const force = (influence - dist) / influence;
-
-            const pushX = dx * force * 0.2;
-            const pushY = dy * force * 0.2;
+            const pushX = dx * force * 0.1;
+            const pushY = dy * force * 0.1;
 
             p.x += pushX;
             p.y += pushY;
@@ -150,11 +161,12 @@ export default function Scene({
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
+          ctx.fillStyle = `rgb(${p.r},${p.g},${p.b})`;
           ctx.fill();
         });
       }
 
+      // Animation Look
       function animate() {
         drawParticles();
         requestAnimationFrame(animate);
@@ -162,7 +174,12 @@ export default function Scene({
 
       animate();
     };
-  }, [image]);
+
+    return () => {
+      canvas.removeEventListener("pointermove", handlePointerMove);
+      canvas.removeEventListener("pointerleave", handlePointerLeave);
+    };
+  }, [image, alignX, alignY]);
 
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />;
 }

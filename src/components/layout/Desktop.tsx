@@ -4,6 +4,7 @@ import Window from "../ui/window/Window";
 import DesktopIcon from "../ui/icons/DesktopIcon";
 import { AnimatePresence } from "motion/react";
 import Scene from "../../features/canvas/Scene";
+import { useState } from "react";
 import { wallpaper } from "../../assets/assets";
 
 export default function Desktop({
@@ -12,6 +13,8 @@ export default function Desktop({
   backgroundImage?: string;
 }) {
   const { windows, close, toggle, move, focus } = useWindowManager();
+
+  const [isInteractive, setIsInteractive] = useState(true);
 
   return (
     <div
@@ -37,7 +40,7 @@ export default function Desktop({
         </div>
       )}
 
-      <Scene image={wallpaper} />
+      {isInteractive && <Scene image={wallpaper} />}
 
       <div className="absolute top-4 left-4 grid grid-cols-2 gap-6">
         {Object.values(windowRegistry).map((win) => (
