@@ -1,6 +1,6 @@
 export default function Links() {
   return (
-    <div className="z-1 grid grid-rows-2 grid-cols-3 h-full bg-surface text-ink rounded-s-card rounded-br-card px-1">
+    <div className="z-1 grid grid-rows-2 grid-cols-3 h-full bg-paper text-ink rounded-s-card rounded-br-card px-1">
       <Link label="GitHub">
         <svg
           stroke="currentColor"

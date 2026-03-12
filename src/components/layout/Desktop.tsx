@@ -3,6 +3,8 @@ import { windowRegistry } from "../../features/window-system/windowRegistry";
 import Window from "../ui/window/Window";
 import DesktopIcon from "../ui/icons/DesktopIcon";
 import { AnimatePresence } from "motion/react";
+import Scene from "../../features/canvas/Scene";
+import { wallpaper } from "../../assets/assets";
 
 export default function Desktop({
   backgroundImage,
@@ -19,7 +21,7 @@ export default function Desktop({
           ? {
               backgroundImage: `url(${backgroundImage})`,
               backgroundSize: "cover",
-              backgroundPosition: "center bottom",
+              backgroundPosition: "right center",
             }
           : undefined
       }
@@ -34,6 +36,8 @@ export default function Desktop({
           ))}
         </div>
       )}
+
+      <Scene image={wallpaper} />
 
       <div className="absolute top-4 left-4 grid grid-cols-2 gap-6">
         {Object.values(windowRegistry).map((win) => (

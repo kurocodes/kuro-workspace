@@ -3,7 +3,7 @@ import Links from "./Links";
 
 export default function Footer() {
   return (
-    <div className="relative w-full flex justify-between items-center border-t-4 border-outline bg-outline">
+    <div className="relative w-full max-h-18 flex justify-between items-center border-t-4 border-outline bg-outline">
       <div className="h-full place-content-center flex-1 bg-surface rounded-e-card rounded-bl-card">
         <div className="w-fit flex items-center gap-1 bg-outline rounded-e-full">
           <div className="font-pixel font-medium text-6xl text-ink leading-0 max-sm:hidden select-none">

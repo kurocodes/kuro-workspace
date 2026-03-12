@@ -9,7 +9,7 @@ export default function App() {
       <div className="w-full h-full flex flex-col items-center gap-2">
         <Navbar />
         <div className="w-full flex-1 flex flex-col items-center window-frame border-outline">
-          <Desktop />
+          <Desktop backgroundImage={wallpaper} />
           <Footer />
         </div>
       </div>
