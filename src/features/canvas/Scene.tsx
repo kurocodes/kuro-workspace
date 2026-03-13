@@ -50,9 +50,6 @@ export default function Scene({
       pointer.y = FAR;
     };
 
-    canvas.addEventListener("pointermove", handlePointerMove);
-    canvas.addEventListener("pointerleave", handlePointerLeave);
-
     // Image Loading
     const img = new Image();
     img.src = image;
@@ -63,6 +60,9 @@ export default function Scene({
 
       canvas.width = rect.width;
       canvas.height = rect.height;
+
+      canvas.addEventListener("pointermove", handlePointerMove);
+      canvas.addEventListener("pointerleave", handlePointerLeave);
 
       // Cover Scaling
       const canvasRatio = canvas.width / canvas.height;
@@ -166,7 +166,7 @@ export default function Scene({
         });
       }
 
-      // Animation Look
+      // Animation Loop
       function animate() {
         drawParticles();
         requestAnimationFrame(animate);
@@ -181,5 +181,5 @@ export default function Scene({
     };
   }, [image, alignX, alignY]);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />;
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full touch-none" />;
 }

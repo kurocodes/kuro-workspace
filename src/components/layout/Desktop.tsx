@@ -4,23 +4,26 @@ import Window from "../ui/window/Window";
 import DesktopIcon from "../ui/icons/DesktopIcon";
 import { AnimatePresence } from "motion/react";
 import Scene from "../../features/canvas/Scene";
-import { useState } from "react";
-import { wallpaper } from "../../assets/assets";
+import { useKeyboard } from "../../hooks/useKeyboard";
 
 export default function Desktop({
   backgroundImage,
+  isInteractive,
+  toggleInteractive
 }: {
   backgroundImage?: string;
+  isInteractive: boolean;
+  toggleInteractive?: () => void;
 }) {
   const { windows, close, toggle, move, focus } = useWindowManager();
 
-  const [isInteractive, setIsInteractive] = useState(true);
+  useKeyboard({ toggleInteractive });
 
   return (
     <div
       className="relative w-full bg-gradient inset-radius-t flex-1 overflow-hidden"
       style={
-        backgroundImage
+        backgroundImage && !isInteractive
           ? {
               backgroundImage: `url(${backgroundImage})`,
               backgroundSize: "cover",
@@ -40,7 +43,7 @@ export default function Desktop({
         </div>
       )}
 
-      {isInteractive && <Scene image={wallpaper} />}
+      {isInteractive && <Scene image={backgroundImage} />}
 
       <div className="absolute top-4 left-4 grid grid-cols-2 gap-6">
         {Object.values(windowRegistry).map((win) => (

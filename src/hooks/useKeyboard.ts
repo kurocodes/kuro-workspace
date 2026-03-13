@@ -1,15 +1,27 @@
 import { useEffect } from "react";
 
-export function useKeyboard(toggleTheme: () => void) {
+type KeyboardActions = {
+  toggleTheme?: () => void;
+  toggleInteractive?: () => void;
+};
+
+export function useKeyboard(actions: KeyboardActions) {
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.altKey && e.code === "KeyT") {
-        e.preventDefault();
-        toggleTheme();
+      if (e.ctrlKey && e.altKey) {
+        if (e.code === "KeyT" && actions.toggleTheme) {
+          e.preventDefault();
+          actions.toggleTheme();
+        }
+
+        if (e.code === "KeyI" && actions.toggleInteractive) {
+          e.preventDefault();
+          actions.toggleInteractive();
+        }
       }
     };
 
     window.addEventListener("keydown", down);
     return () => window.removeEventListener("keydown", down);
-  }, [toggleTheme]);
+  }, [actions]);
 }
