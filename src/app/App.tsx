@@ -3,10 +3,17 @@ import { wallpaper } from "../assets/assets";
 import Desktop from "../components/layout/Desktop";
 import Footer from "../components/layout/footer/Footer";
 import Navbar from "../components/layout/Navbar";
+import type { PageProps } from "../utils/types";
 
 export default function App() {
 
-  const [isInteractive, setIsInteractive] = useState(false);
+  const [isInteractive, setIsInteractive] = useState(true);
+
+  const toggleInteractive = () => setIsInteractive((v) => !v);
+
+  const sharedPageProps: PageProps = {
+    backgroundImage: 
+  }
 
   return (
     <div className="w-screen h-screen overflow-hidden bg-surface font-ui p-2">

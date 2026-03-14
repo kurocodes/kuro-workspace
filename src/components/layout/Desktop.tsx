@@ -9,7 +9,7 @@ import { useKeyboard } from "../../hooks/useKeyboard";
 export default function Desktop({
   backgroundImage,
   isInteractive,
-  toggleInteractive
+  toggleInteractive,
 }: {
   backgroundImage?: string;
   isInteractive: boolean;
@@ -27,12 +27,12 @@ export default function Desktop({
           ? {
               backgroundImage: `url(${backgroundImage})`,
               backgroundSize: "cover",
-              backgroundPosition: "right center",
+              backgroundPosition: "center center",
             }
           : undefined
       }
     >
-      {!backgroundImage && (
+      {/* {isInteractive && (
         <div className="absolute inset-0 h-full flex flex-col justify-around">
           {Array.from({ length: 50 }).map((_, i) => (
             <div
@@ -41,9 +41,9 @@ export default function Desktop({
             ></div>
           ))}
         </div>
-      )}
+      )} */}
 
-      {isInteractive && <Scene image={backgroundImage} />}
+      {backgroundImage && isInteractive && <Scene image={backgroundImage} />}
 
       <div className="absolute top-4 left-4 grid grid-cols-2 gap-6">
         {Object.values(windowRegistry).map((win) => (
