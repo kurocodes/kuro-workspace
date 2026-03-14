@@ -1,27 +1,26 @@
 import { create } from "zustand";
 import type { WindowId, WindowInstance } from "./windowTypes";
-import { windowRegistry } from "./windowRegistry";
+import type { WindowDefinition } from "./windowDefinitions";
 
 type WindowStore = {
   windows: WindowInstance[];
   topZ: number;
 
-  openWindow: (id: WindowId) => void;
+  openWindow: (definition: WindowDefinition) => void;
   closeWindow: (id: WindowId) => void;
-  toggleWindow: (id: WindowId) => void;
+  toggleWindow: (definition: WindowDefinition) => void;
   focusWindow: (id: WindowId) => void;
-  moveWindow: (id: WindowId, x: number, y: number) => void;
+  moveWindow: (id: WindowId, dx: number, dy: number) => void;
+  clearWindows: () => void;
 };
 
 export const useWindowStore = create<WindowStore>((set, get) => ({
   windows: [],
   topZ: 1,
 
-  openWindow: (id) => {
-    const exists = get().windows.find((w) => w.id === id);
+  openWindow: (definition) => {
+    const exists = get().windows.find((w) => w.id === definition.id);
     if (exists) return;
-
-    const definition = windowRegistry[id];
 
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
@@ -44,7 +43,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
       windows: [
         ...state.windows,
         {
-          id,
+          id: definition.id,
           x,
           y,
           width,
@@ -62,12 +61,12 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
     }));
   },
 
-  toggleWindow: (id) => {
-    const exists = get().windows.find((w) => w.id === id);
+  toggleWindow: (definition) => {
+    const exists = get().windows.find((w) => w.id === definition.id);
     if (exists) {
-      get().closeWindow(id);
+      get().closeWindow(definition.id);
     } else {
-      get().openWindow(id);
+      get().openWindow(definition);
     }
   },
 
@@ -89,4 +88,6 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
       ),
     }));
   },
+
+  clearWindows: () => set({ windows: [], topZ: 1 }),
 }));

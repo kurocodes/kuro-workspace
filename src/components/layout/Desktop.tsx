@@ -1,19 +1,21 @@
+import type { WindowDefinition } from "../../features/window-system/windowDefinitions";
 import { useWindowManager } from "../../features/window-system/useWindowManager";
-import { windowRegistry } from "../../features/window-system/windowRegistry";
-import Window from "../ui/window/Window";
-import DesktopIcon from "../ui/icons/DesktopIcon";
-import { AnimatePresence } from "motion/react";
-import Scene from "../../features/canvas/Scene";
 import { useKeyboard } from "../../hooks/useKeyboard";
+import DesktopIcon from "../ui/icons/DesktopIcon";
+import Scene from "../../features/canvas/Scene";
+import { AnimatePresence } from "motion/react";
+import Window from "../ui/window/Window";
 
 export default function Desktop({
   backgroundImage,
   isInteractive,
   toggleInteractive,
+  registry,
 }: {
   backgroundImage?: string;
   isInteractive: boolean;
   toggleInteractive?: () => void;
+  registry: Record<string, WindowDefinition>;
 }) {
   const { windows, close, toggle, move, focus } = useWindowManager();
 
@@ -46,36 +48,45 @@ export default function Desktop({
       {backgroundImage && isInteractive && <Scene image={backgroundImage} />}
 
       <div className="absolute top-4 left-4 grid grid-cols-2 gap-6">
-        {Object.values(windowRegistry).map((win) => (
+        {Object.values(registry).map((win) => (
           <DesktopIcon
             key={win.id}
             title={win.title}
-            onClick={() => toggle(win.id)}
+            icon={win.icon}
+            onClick={() => toggle(win)}
           />
         ))}
       </div>
 
       <AnimatePresence>
-        {windows.map((instance) => {
-          const definition = windowRegistry[instance.id];
+        {windows
+          .filter((instance) => registry[instance.id])
+          .map((instance) => {
+            const definition = registry[instance.id];
 
-          return (
-            <Window
-              key={instance.id}
-              title={definition.title}
-              x={instance.x}
-              y={instance.y}
-              zIndex={instance.zIndex}
-              width={instance.width ?? definition.defaultWidth}
-              height={instance.height ?? definition.defaultHeight}
-              handleFocus={() => focus(instance.id)}
-              handleMove={(dx, dy) => move(instance.id, dx, dy)}
-              handleClose={() => close(instance.id)}
-            >
-              <div className="p-4 text-outline">{definition.title} Content</div>
-            </Window>
-          );
-        })}
+            return (
+              <Window
+                key={instance.id}
+                title={definition.title}
+                x={instance.x}
+                y={instance.y}
+                zIndex={instance.zIndex}
+                width={instance.width ?? definition.defaultWidth}
+                height={instance.height ?? definition.defaultHeight}
+                handleFocus={() => focus(instance.id)}
+                handleMove={(dx, dy) => move(instance.id, dx, dy)}
+                handleClose={() => close(instance.id)}
+              >
+                {definition.content ? (
+                  <definition.content />
+                ) : (
+                  <div className="p-4 text-outline">
+                    {definition.title} Content
+                  </div>
+                )}
+              </Window>
+            );
+          })}
       </AnimatePresence>
     </div>
   );

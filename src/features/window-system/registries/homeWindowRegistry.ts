@@ -1,15 +1,8 @@
-export type WindowDefinition = {
-  id: string;
-  icon?: "folder" | "note" | "mail";
-  title: string;
-  defaultWidth: number;
-  defaultHeight: number;
-  defaultX?: number;
-  defaultY?: number;
-  backgroundImage?: string;
-};
+import type { WindowDefinition } from "../windowDefinitions";
+import AboutContent from "../../../components/window-content/AboutContent";
+import ContactContent from "../../../components/window-content/ContactContent";
 
-export const windowRegistry: Record<string, WindowDefinition> = {
+export const homeWindowRegistry: Record<string, WindowDefinition> = {
   about: {
     id: "about",
     icon: "folder",
@@ -18,6 +11,7 @@ export const windowRegistry: Record<string, WindowDefinition> = {
     defaultHeight: 400,
     defaultX: 120,
     defaultY: 80,
+    content: AboutContent,
   },
   gallery: {
     id: "gallery",
@@ -63,6 +57,7 @@ export const windowRegistry: Record<string, WindowDefinition> = {
     defaultHeight: 300,
     defaultX: 120,
     defaultY: 80,
+    content: ContactContent,
   },
   featuredBlog: {
     id: "featuredBlog",

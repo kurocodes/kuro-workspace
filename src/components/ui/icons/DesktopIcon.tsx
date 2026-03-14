@@ -1,12 +1,14 @@
 import { useState } from "react";
 import FolderIcon from "./FolderIcon";
+import type { IconType } from "../../../features/window-system/windowDefinitions";
 
 interface DesktopIconProps {
   title: string;
+  icon?: IconType;
   onClick: () => void;
 }
 
-export default function DesktopIcon({ title, onClick }: DesktopIconProps) {
+export default function DesktopIcon({ title, icon, onClick }: DesktopIconProps) {
   const [lastTap, setLastTap] = useState(0);
 
   const handlePointerDown = () => {
