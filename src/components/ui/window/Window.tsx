@@ -8,7 +8,7 @@ interface WindowProps {
   y: number;
   zIndex: number;
   width: number;
-  height: number;
+  height: number | string;
   handleFocus: () => void;
   handleMove: (dx: number, dy: number) => void;
   handleClose: () => void;

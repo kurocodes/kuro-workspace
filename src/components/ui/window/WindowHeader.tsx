@@ -22,7 +22,7 @@ export default function WindowHeader({
       className="bg-surface border-b-thick border-outline select-none touch-none"
     >
       <div className="px-2 py-1 flex justify-between items-center">
-        <div className="text-outline font-mono font-medium">{title}</div>
+        <div className="text-outline text-sm leading-4.5 font-mono ">{title}</div>
 
         <div className="flex items-center gap-1 cursor-pointer">
           <WindowIcon variant="maximize" />

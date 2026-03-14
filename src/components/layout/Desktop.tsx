@@ -72,7 +72,7 @@ export default function Desktop({
                 y={instance.y}
                 zIndex={instance.zIndex}
                 width={instance.width ?? definition.defaultWidth}
-                height={instance.height ?? definition.defaultHeight}
+                height={instance.height ?? definition.defaultHeight ?? "auto"}
                 handleFocus={() => focus(instance.id)}
                 handleMove={(dx, dy) => move(instance.id, dx, dy)}
                 handleClose={() => close(instance.id)}

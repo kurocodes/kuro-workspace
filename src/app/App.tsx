@@ -11,7 +11,7 @@ import Blog from "../pages/Blog";
 import WindowRouteReset from "../features/window-system/WindowRouteReset";
 
 export default function App() {
-  const [isInteractive, setIsInteractive] = useState(true);
+  const [isInteractive, setIsInteractive] = useState(false);
 
   const toggleInteractive = () => setIsInteractive((v) => !v);
 

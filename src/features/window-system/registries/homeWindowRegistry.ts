@@ -8,7 +8,6 @@ export const homeWindowRegistry: Record<string, WindowDefinition> = {
     icon: "folder",
     title: "About",
     defaultWidth: 500,
-    defaultHeight: 400,
     defaultX: 120,
     defaultY: 80,
     content: AboutContent,
