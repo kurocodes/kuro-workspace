@@ -1,4 +1,4 @@
-import type { WindowDefinition } from "../windowDefinitions";
+import type { WindowDefinition } from "../definitions/windowDefinitions";
 
 export const playgroundWindowRegistry: Record<string, WindowDefinition> = {
   experimentOne: {

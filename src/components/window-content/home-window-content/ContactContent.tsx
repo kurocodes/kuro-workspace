@@ -1,6 +1,6 @@
 export default function ContactContent() {
   return (
-    <div className="px-4 py-2.5 text-outline text-sm">
+    <div className="px-4 py-2.5 text-outline text-sm leading-4.5">
       <address className="not-italic flex flex-col gap-4">
         <p>
           <span>For work, collaborations, or just saying hi — </span>

@@ -1,4 +1,4 @@
-import type { WindowDefinition } from "../../features/window-system/windowDefinitions";
+import type { WindowDefinition } from "../../features/window-system/definitions/windowDefinitions";
 import { useWindowManager } from "../../features/window-system/useWindowManager";
 import { useKeyboard } from "../../hooks/useKeyboard";
 import DesktopIcon from "../ui/icons/DesktopIcon";
@@ -77,8 +77,8 @@ export default function Desktop({
                 handleMove={(dx, dy) => move(instance.id, dx, dy)}
                 handleClose={() => close(instance.id)}
               >
-                {definition.content ? (
-                  <definition.content />
+                {definition.renderContent ? (
+                  definition.renderContent()
                 ) : (
                   <div className="p-4 text-outline">
                     {definition.title} Content

@@ -1,6 +1,6 @@
-import type { WindowDefinition } from "../windowDefinitions";
-import AboutContent from "../../../components/window-content/AboutContent";
-import ContactContent from "../../../components/window-content/ContactContent";
+import type { WindowDefinition } from "../definitions/windowDefinitions";
+import AboutContent from "../../../components/window-content/home-window-content/AboutContent";
+import ContactContent from "../../../components/window-content/home-window-content/ContactContent";
 
 export const homeWindowRegistry: Record<string, WindowDefinition> = {
   about: {
@@ -10,7 +10,7 @@ export const homeWindowRegistry: Record<string, WindowDefinition> = {
     defaultWidth: 500,
     defaultX: 120,
     defaultY: 80,
-    content: AboutContent,
+    renderContent: () => <AboutContent />,
   },
   gallery: {
     id: "gallery",
@@ -55,7 +55,7 @@ export const homeWindowRegistry: Record<string, WindowDefinition> = {
     defaultWidth: 400,
     defaultX: 120,
     defaultY: 80,
-    content: ContactContent,
+    renderContent: () => <ContactContent />,
   },
   featuredBlog: {
     id: "featuredBlog",

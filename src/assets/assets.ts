@@ -14,6 +14,12 @@ import display_img_13 from "./images/display/img13.webp";
 import display_img_14 from "./images/display/img14.webp";
 import display_img_15 from "./images/display/img15.webp";
 
+import kuro_sketch from "./images/projects/kuro_sketch.png";
+import nekonime from "./images/projects/nekonime.png";
+import zantetsu from "./images/projects/zantetsu_store.png";
+import vibcon from "./images/projects/vibcon.png";
+import wonderlust from "./images/projects/wonderlust.png";
+
 export const display_imgs = [
   display_img_1,
   display_img_2,
@@ -31,6 +37,14 @@ export const display_imgs = [
   display_img_14,
   display_img_15,
 ];
+
+export const project_imgs = {
+  kuro_sketch,
+  nekonime,
+  zantetsu,
+  vibcon,
+  wonderlust,
+}
 
 export { default as kuro } from "./images/profile.webp";
 export { default as wallpaper } from "./images/wallpaper.webp";

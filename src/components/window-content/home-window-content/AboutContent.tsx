@@ -1,7 +1,7 @@
 export default function AboutContent() {
   return (
-    <div className="px-4 py-2.5 text-outline text-sm ">
-      <div className="flex flex-col gap-2 overflow-y-auto leading-4.5">
+    <div className="px-4 py-2.5 text-outline text-sm leading-4.5">
+      <div className="flex flex-col gap-2 overflow-y-auto">
         <p className="">
           Kuro is the kind of developer who likes making things feel alive. He
           started with web development, but curiosity kept pulling him

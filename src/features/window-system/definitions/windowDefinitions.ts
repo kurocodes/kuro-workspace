@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+import type { ReactNode } from "react";
 
 export type IconType = "folder" | "note" | "mail";
 
@@ -11,5 +11,5 @@ export type WindowDefinition = {
   defaultX?: number;
   defaultY?: number;
   backgroundImage?: string;
-  content?: ComponentType;
+  renderContent?: () => ReactNode;
 };

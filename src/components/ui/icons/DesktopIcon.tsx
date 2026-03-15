@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FolderIcon from "./FolderIcon";
-import type { IconType } from "../../../features/window-system/windowDefinitions";
+import type { IconType } from "../../../features/window-system/definitions/windowDefinitions";
 
 interface DesktopIconProps {
   title: string;
