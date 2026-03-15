@@ -53,7 +53,6 @@ export const homeWindowRegistry: Record<string, WindowDefinition> = {
     icon: "mail",
     title: "Contact",
     defaultWidth: 400,
-    defaultHeight: 300,
     defaultX: 120,
     defaultY: 80,
     content: ContactContent,
