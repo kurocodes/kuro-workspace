@@ -1,5 +1,5 @@
-import { project_imgs } from "../../assets/assets";
-import type { ProjectData } from "./definitions/workWindowDefinitions";
+import { project_imgs } from "../assets/assets";
+import type { ProjectData } from "../features/window-system/definitions/workWindowDefinitions";
 
 export const workProjects: ProjectData[] = [
   {
@@ -51,7 +51,13 @@ export const workProjects: ProjectData[] = [
       "Clean pagination for browsing large product lists",
       "Anime-themed responsive storefront UI",
     ],
-    links: [{ label: "GitHub", href: "https://github.com/kurocodes/Zantetsu" }],
+    links: [
+      { label: "GitHub", href: "https://github.com/kurocodes/Zantetsu" },
+      {
+        label: "Demo",
+        href: "https://zantetsu-store.vercel.app/",
+      },
+    ],
     thumbnail: project_imgs.zantetsu,
   },
   {
@@ -86,7 +92,10 @@ export const workProjects: ProjectData[] = [
       "User authentication with signup and login",
       "User profiles with profile pictures, usernames, and anime lists",
     ],
-    links: [{ label: "GitHub", href: "https://github.com/kurocodes/NekoNime" }],
+    links: [
+      { label: "GitHub", href: "https://github.com/kurocodes/NekoNime" },
+      { label: "Demo", href: "https://nekonime-eight.vercel.app/" },
+    ],
     thumbnail: project_imgs.nekonime,
   },
   {
@@ -119,6 +128,7 @@ export const workProjects: ProjectData[] = [
     ],
     links: [
       { label: "GitHub", href: "https://github.com/kurocodes/WonderLust" },
+      { label: "Demo", href: "https://wonderlust-ud0p.onrender.com/" },
     ],
     thumbnail: project_imgs.wonderlust,
   },
@@ -150,6 +160,7 @@ export const workProjects: ProjectData[] = [
     ],
     links: [
       { label: "GitHub", href: "https://github.com/kurocodes/VIBCON2025" },
+      { label: "Live Site", href: "https://vibcon2025.com/" },
     ],
     thumbnail: project_imgs.vibcon,
   },

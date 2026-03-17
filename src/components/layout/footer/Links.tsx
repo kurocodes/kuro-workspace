@@ -5,7 +5,7 @@ export default function Links() {
         <svg
           stroke="currentColor"
           fill="currentColor"
-          stroke-width="0"
+          strokeWidth="0"
           viewBox="0 0 496 512"
           height="24"
           width="24"
@@ -19,7 +19,7 @@ export default function Links() {
         <svg
           stroke="currentColor"
           fill="currentColor"
-          stroke-width="0"
+          strokeWidth="0"
           viewBox="0 0 512 512"
           height="24"
           width="24"
@@ -33,7 +33,7 @@ export default function Links() {
         <svg
           stroke="currentColor"
           fill="currentColor"
-          stroke-width="0"
+          strokeWidth="0"
           viewBox="0 0 448 512"
           height="24"
           width="24"
@@ -48,7 +48,7 @@ export default function Links() {
           xmlns="http://www.w3.org/2000/svg"
           stroke="currentColor"
           fill="currentColor"
-          stroke-width="0"
+          strokeWidth="0"
           height="24"
           width="24"
           className="hover:text-surface text-outline"

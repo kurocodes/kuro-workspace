@@ -5,6 +5,7 @@ import DesktopIcon from "../ui/icons/DesktopIcon";
 import Scene from "../../features/canvas/Scene";
 import { AnimatePresence } from "motion/react";
 import Window from "../ui/window/Window";
+import { useLoadingStore } from "../../features/loading/loadingStore";
 
 export default function Desktop({
   backgroundImage,
@@ -17,6 +18,7 @@ export default function Desktop({
   toggleInteractive?: () => void;
   registry: Record<string, WindowDefinition>;
 }) {
+  const finish = useLoadingStore((s) => s.finish);
   const { windows, close, toggle, move, focus } = useWindowManager();
 
   useKeyboard({ toggleInteractive });
@@ -45,9 +47,11 @@ export default function Desktop({
         </div>
       )} */}
 
-      {backgroundImage && isInteractive && <Scene image={backgroundImage} />}
+      {backgroundImage && isInteractive && (
+        <Scene image={backgroundImage} onReady={finish} />
+      )}
 
-      <div className="absolute top-4 left-4 grid grid-cols-2 gap-6">
+      <div className="absolute p-2 sm:p-4 sm:h-full flex sm:flex-col flex-wrap gap-6">
         {Object.values(registry).map((win) => (
           <DesktopIcon
             key={win.id}

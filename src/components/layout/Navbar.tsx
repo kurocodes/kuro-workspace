@@ -31,7 +31,7 @@ export default function Navbar({
       <div className="flex items-center gap-2">
         <div
           onClick={toggleInteractive}
-          className="text-xs text-ink bg-fade px-1.5 py-0.5 rounded-lg cursor-pointer hover:outline-2 hover:outline-ink select-none"
+          className="text-xs text-ink bg-fade px-1.5 py-0.5 rounded-lg cursor-pointer hover:outline-2 hover:outline-ink select-none max-sm:hidden"
         >
           Ctrl Alt I
         </div>

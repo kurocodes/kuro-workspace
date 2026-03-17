@@ -14,11 +14,11 @@ import display_img_13 from "./images/display/img13.webp";
 import display_img_14 from "./images/display/img14.webp";
 import display_img_15 from "./images/display/img15.webp";
 
-import kuro_sketch from "./images/projects/kuro_sketch.png";
-import nekonime from "./images/projects/nekonime.png";
-import zantetsu from "./images/projects/zantetsu_store.png";
-import vibcon from "./images/projects/vibcon.png";
-import wonderlust from "./images/projects/wonderlust.png";
+import kuro_sketch from "./images/projects/kuro_sketch.webp";
+import nekonime from "./images/projects/nekonime.webp";
+import zantetsu from "./images/projects/zantetsu_store.webp";
+import vibcon from "./images/projects/vibcon.webp";
+import wonderlust from "./images/projects/wonderlust.webp";
 
 export const display_imgs = [
   display_img_1,

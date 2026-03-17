@@ -1,6 +1,6 @@
 import ProjectContent from "../../../components/window-content/project-window-content/ProjectContent";
 import type { WorkWindowDefinition } from "../definitions/workWindowDefinitions";
-import { workProjects } from "../workProjects";
+import { workProjects } from "../../../utils/workProjects";
 
 export const workWindowRegistry: Record<string, WorkWindowDefinition> = Object.fromEntries(
   workProjects.map((project, index) => [

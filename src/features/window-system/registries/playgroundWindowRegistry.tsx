@@ -12,7 +12,7 @@ export const playgroundWindowRegistry: Record<string, WindowDefinition> = {
   },
   componentOne: {
     id: "componentOne",
-    icon: "note",
+    icon: "folder",
     title: "Component One",
     defaultWidth: 500,
     defaultHeight: 400,

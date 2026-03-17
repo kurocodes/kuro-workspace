@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useLoadingStore } from "../loading/loadingStore";
 
 type Particle = {
   x: number;
@@ -21,11 +22,14 @@ export default function Scene({
   image,
   alignX = "center",
   alignY = "center",
+  onReady,
 }: {
   image?: string;
   alignX?: "left" | "center" | "right";
   alignY?: "top" | "center" | "bottom";
+  onReady?: () => void;
 }) {
+  const { setProgress } = useLoadingStore();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const pointerTargetRef = useRef({ x: FAR, y: FAR });
   const pointerRef = useRef({ x: FAR, y: FAR });
@@ -45,10 +49,9 @@ export default function Scene({
     // Pointer Interaction
     const handlePointerMove = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
+
       pointerTargetRef.current.x = e.clientX - rect.left;
       pointerTargetRef.current.y = e.clientY - rect.top;
-      // pointerRef.current.x = e.clientX - rect.left;
-      // pointerRef.current.y = e.clientY - rect.top;
     };
 
     const handlePointerLeave = () => {
@@ -74,8 +77,8 @@ export default function Scene({
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      canvas.addEventListener("pointermove", handlePointerMove);
-      canvas.addEventListener("pointerleave", handlePointerLeave);
+      window.addEventListener("pointermove", handlePointerMove);
+      window.addEventListener("pointerleave", handlePointerLeave);
 
       // Cover Scaling
       const canvasWidth = rect.width;
@@ -121,8 +124,17 @@ export default function Scene({
       const imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
       const data = imageData.data;
 
+      let lastProgress = 0;
+
       // Particle Creation
       for (let y = 0; y < canvasHeight; y += SPACING) {
+        const progress = Math.floor((y / canvasHeight) * 100);
+
+        if (progress !== lastProgress) {
+          setProgress(progress);
+          lastProgress = progress;
+        }
+        setProgress(progress);
         for (let x = 0; x <= canvasWidth; x += SPACING) {
           const index = (y * canvasWidth + x) * 4;
 
@@ -149,8 +161,12 @@ export default function Scene({
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-        pointerRef.current.x += (pointerTargetRef.current.x - pointerRef.current.x) * POINTER_SMOOTHING;
-        pointerRef.current.y += (pointerTargetRef.current.y - pointerRef.current.y) * POINTER_SMOOTHING;
+        pointerRef.current.x +=
+          (pointerTargetRef.current.x - pointerRef.current.x) *
+          POINTER_SMOOTHING;
+        pointerRef.current.y +=
+          (pointerTargetRef.current.y - pointerRef.current.y) *
+          POINTER_SMOOTHING;
 
         particles.forEach((p) => {
           const dx = p.x - pointerRef.current.x;
@@ -178,10 +194,12 @@ export default function Scene({
             p.x - p.radius,
             p.y - p.radius,
             p.radius * 2,
-            p.radius * 2
+            p.radius * 2,
           );
         });
       }
+
+      onReady?.();
 
       // Animation Loop
       const animate = () => {
@@ -195,10 +213,10 @@ export default function Scene({
     return () => {
       isMounted = false;
       cancelAnimationFrame(animationId);
-      canvas.removeEventListener("pointermove", handlePointerMove);
-      canvas.removeEventListener("pointerleave", handlePointerLeave);
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerleave", handlePointerLeave);
     };
-  }, [image, alignX, alignY]);
+  }, [image, alignX, alignY, onReady, setProgress]);
 
   return (
     <canvas

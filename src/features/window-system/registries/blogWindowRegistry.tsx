@@ -3,7 +3,7 @@ import type { WindowDefinition } from "../definitions/windowDefinitions";
 export const blogWindowRegistry: Record<string, WindowDefinition> = {
   blogOne: {
     id: "blogOne",
-    icon: "note",
+    icon: "folder",
     title: "Blog One",
     defaultWidth: 500,
     defaultHeight: 400,
@@ -12,7 +12,7 @@ export const blogWindowRegistry: Record<string, WindowDefinition> = {
   },
   blogTwo: {
     id: "blogTwo",
-    icon: "note",
+    icon: "folder",
     title: "Blog Two",
     defaultWidth: 500,
     defaultHeight: 400,
