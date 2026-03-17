@@ -30,9 +30,11 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
     const width = isMobile
       ? Math.min(screenWidth - 32, definition.defaultWidth)
       : definition.defaultWidth;
+
+    const baseHeight = definition.defaultHeight ?? 400;
     const height = isMobile
-      ? Math.min(screenHeight - 120, definition.defaultHeight)
-      : definition.defaultHeight;
+      ? Math.min(screenHeight - 120, baseHeight)
+      : baseHeight;
 
     const x = isMobile ? 16 : (definition.defaultX ?? 100);
     const y = isMobile ? 80 : (definition.defaultY ?? 100);
