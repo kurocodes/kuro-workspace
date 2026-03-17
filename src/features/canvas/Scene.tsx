@@ -16,7 +16,7 @@ const INFLUENCE = 90;
 const INFLUENCE_SQ = INFLUENCE * INFLUENCE;
 const POINTER_SMOOTHING = 0.18;
 const RETURN_SPEED = 0.05;
-const PUSH_STRENGTH = 0.1;
+const PUSH_STRENGTH = 0.05;
 
 export default function Scene({
   image,
@@ -35,21 +35,19 @@ export default function Scene({
   const pointerRef = useRef({ x: FAR, y: FAR });
 
   useEffect(() => {
-    // Setup
     const canvas = canvasRef.current;
     if (!canvas || !image) return;
 
-    const ctx = canvas.getContext("2d", { alpha: true });
+    const ctx = canvas.getContext("2d", { alpha: true, willReadFrequently: true });
     if (!ctx) return;
 
     let animationId = 0;
     let isMounted = true;
-    const particles: Particle[] = [];
+    let particles: Particle[] = [];
 
     // Pointer Interaction
     const handlePointerMove = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
-
       pointerTargetRef.current.x = e.clientX - rect.left;
       pointerTargetRef.current.y = e.clientY - rect.top;
     };
@@ -59,160 +57,146 @@ export default function Scene({
       pointerTargetRef.current.y = FAR;
     };
 
-    // Image Loading
-    const img = new Image();
-    img.src = image;
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerleave", handlePointerLeave);
 
-    img.onload = () => {
-      if (!isMounted) return;
+    // All canvas setup in one plain function — callable anytime
+    function rebuild(img: HTMLImageElement) {
+      particles = [];
 
-      // Canvas Size
-      const rect = canvas.getBoundingClientRect();
-      const dpr = 1;
+      // Read live rect HERE — this is the fresh size after reflow
+      const rect = canvas!.getBoundingClientRect();
+      const w = Math.floor(rect.width);
+      const h = Math.floor(rect.height);
 
-      canvas.width = Math.floor(rect.width * dpr);
-      canvas.height = Math.floor(rect.height * dpr);
-      canvas.style.width = `${rect.width}px`;
-      canvas.style.height = `${rect.height}px`;
+      if (w === 0 || h === 0) return;
 
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Re-stamp the pixel buffer to the new size
+      canvas!.width = w;
+      canvas!.height = h;
 
-      window.addEventListener("pointermove", handlePointerMove);
-      window.addEventListener("pointerleave", handlePointerLeave);
-
-      // Cover Scaling
-      const canvasWidth = rect.width;
-      const canvasHeight = rect.height;
-
-      const canvasRatio = canvasWidth / canvasHeight;
+      // Cover scaling
+      const canvasRatio = w / h;
       const imageRatio = img.width / img.height;
 
-      let drawWidth = canvasWidth;
-      let drawHeight = canvasHeight;
+      let drawWidth = w;
+      let drawHeight = h;
       let offsetX = 0;
       let offsetY = 0;
 
       if (canvasRatio > imageRatio) {
-        drawHeight = canvasWidth / imageRatio;
-        drawWidth = canvasWidth;
+        drawHeight = w / imageRatio;
+        drawWidth = w;
       } else {
-        drawWidth = canvasHeight * imageRatio;
-        drawHeight = canvasHeight;
+        drawWidth = h * imageRatio;
+        drawHeight = h;
       }
 
-      // horizontal alignment
-      if (alignX === "left") {
-        offsetX = 0;
-      } else if (alignX === "center") {
-        offsetX = (canvasWidth - drawWidth) / 2;
-      } else if (alignX === "right") {
-        offsetX = canvasWidth - drawWidth;
-      }
+      if (alignX === "left") offsetX = 0;
+      else if (alignX === "center") offsetX = (w - drawWidth) / 2;
+      else if (alignX === "right") offsetX = w - drawWidth;
 
-      // vertical alignment
-      if (alignY === "top") {
-        offsetY = 0;
-      } else if (alignY === "center") {
-        offsetY = (canvasHeight - drawHeight) / 2;
-      } else if (alignY === "bottom") {
-        offsetY = canvasHeight - drawHeight;
-      }
+      if (alignY === "top") offsetY = 0;
+      else if (alignY === "center") offsetY = (h - drawHeight) / 2;
+      else if (alignY === "bottom") offsetY = h - drawHeight;
 
-      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+      ctx!.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
 
-      // Image Sampling
-      const imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+      // Sample pixels and build particles
+      const imageData = ctx!.getImageData(0, 0, w, h);
       const data = imageData.data;
-
       let lastProgress = 0;
 
-      // Particle Creation
-      for (let y = 0; y < canvasHeight; y += SPACING) {
-        const progress = Math.floor((y / canvasHeight) * 100);
-
+      for (let y = 0; y < h; y += SPACING) {
+        const progress = Math.floor((y / h) * 100);
         if (progress !== lastProgress) {
           setProgress(progress);
           lastProgress = progress;
         }
-        setProgress(progress);
-        for (let x = 0; x <= canvasWidth; x += SPACING) {
-          const index = (y * canvasWidth + x) * 4;
-
-          const r = data[index];
-          const g = data[index + 1];
-          const b = data[index + 2];
-
+        for (let x = 0; x < w; x += SPACING) {
+          const index = (y * w + x) * 4;
           particles.push({
             x,
             y,
             originX: x,
             originY: y,
             radius: SPACING * 0.45,
-            color: `rgb(${r}, ${g}, ${b})`,
+            color: `rgb(${data[index]}, ${data[index + 1]}, ${data[index + 2]})`,
           });
         }
       }
 
-      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      ctx!.clearRect(0, 0, w, h);
+    }
 
-      // Rendering
-      function drawParticles() {
-        if (!ctx) return;
+    // Image Loading
+    const img = new Image();
+    img.src = image;
 
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    const onLoad = () => {
+      if (!isMounted) return;
+      rebuild(img);
+      onReady?.();
 
-        pointerRef.current.x +=
-          (pointerTargetRef.current.x - pointerRef.current.x) *
-          POINTER_SMOOTHING;
-        pointerRef.current.y +=
-          (pointerTargetRef.current.y - pointerRef.current.y) *
-          POINTER_SMOOTHING;
+      // Animation loop — always reads from the live `particles` array ref
+      const animate = () => {
+        if (!isMounted) return;
 
-        particles.forEach((p) => {
+        const w = canvas!.width;
+        const h = canvas!.height;
+
+        ctx!.clearRect(0, 0, w, h);
+
+        pointerRef.current.x += (pointerTargetRef.current.x - pointerRef.current.x) * POINTER_SMOOTHING;
+        pointerRef.current.y += (pointerTargetRef.current.y - pointerRef.current.y) * POINTER_SMOOTHING;
+
+        for (const p of particles) {
           const dx = p.x - pointerRef.current.x;
           const dy = p.y - pointerRef.current.y;
-
           const distSq = dx * dx + dy * dy;
 
           if (distSq < INFLUENCE_SQ) {
-            const dist = Math.sqrt(distSq); // only when needed
+            const dist = Math.sqrt(distSq);
             const force = (INFLUENCE - dist) / INFLUENCE;
-
-            const pushX = dx * force * PUSH_STRENGTH;
-            const pushY = dy * force * PUSH_STRENGTH;
-
-            p.x += pushX;
-            p.y += pushY;
+            p.x += dx * force * PUSH_STRENGTH;
+            p.y += dy * force * PUSH_STRENGTH;
           }
 
-          // spring return
           p.x += (p.originX - p.x) * RETURN_SPEED;
           p.y += (p.originY - p.y) * RETURN_SPEED;
 
-          ctx.fillStyle = p.color;
-          ctx.fillRect(
-            p.x - p.radius,
-            p.y - p.radius,
-            p.radius * 2,
-            p.radius * 2,
-          );
-        });
-      }
+          ctx!.fillStyle = p.color;
+          ctx!.fillRect(p.x - p.radius, p.y - p.radius, p.radius * 2, p.radius * 2);
+        }
 
-      onReady?.();
-
-      // Animation Loop
-      const animate = () => {
-        drawParticles();
         animationId = requestAnimationFrame(animate);
       };
 
       animate();
     };
 
+    // ✅ Handle both: fresh load and already-cached image
+    if (img.complete) {
+      onLoad();
+    } else {
+      img.onload = onLoad;
+    }
+
+    // ✅ ResizeObserver calls rebuild() directly — no React state, no effect re-run
+    let debounceTimer: ReturnType<typeof setTimeout>;
+    const ro = new ResizeObserver(() => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        if (isMounted && img.complete) rebuild(img);
+      }, 150);
+    });
+    ro.observe(canvas);
+
     return () => {
       isMounted = false;
       cancelAnimationFrame(animationId);
+      clearTimeout(debounceTimer);
+      ro.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerleave", handlePointerLeave);
     };
