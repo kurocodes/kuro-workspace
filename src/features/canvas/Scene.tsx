@@ -15,8 +15,8 @@ const SPACING = 12;
 const INFLUENCE = 90;
 const INFLUENCE_SQ = INFLUENCE * INFLUENCE;
 const POINTER_SMOOTHING = 0.18;
-const RETURN_SPEED = 0.05;
-const PUSH_STRENGTH = 0.05;
+const RETURN_SPEED = 0.08;
+const PUSH_STRENGTH = 0.1;
 
 export default function Scene({
   image,

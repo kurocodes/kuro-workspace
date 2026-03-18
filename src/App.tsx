@@ -27,31 +27,33 @@ export default function App() {
   };
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-surface font-ui p-2">
-      <AnimatePresence>{isLoading && <Loader />}</AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isLoading ? 0 : 1 }}
-        transition={{ duration: 0.6 }}
-        className="w-full h-full flex flex-col items-center gap-2"
-      >
-        <Navbar toggleInteractive={() => setIsInteractive((v) => !v)} />
-        <div className="w-full flex-1 flex flex-col items-center window-frame border-outline">
-          <WindowRouteReset />
+    <div className="w-screen h-dvh overflow-hidden bg-surface font-ui">
+      <div className="w-full h-full p-2">
+        <AnimatePresence>{isLoading && <Loader />}</AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isLoading ? 0 : 1 }}
+          transition={{ duration: 0.6 }}
+          className="w-full h-full flex flex-col items-center gap-2"
+        >
+          <Navbar toggleInteractive={() => setIsInteractive((v) => !v)} />
+          <div className="w-full flex-1 flex flex-col items-center window-frame border-outline">
+            <WindowRouteReset />
 
-          <Routes>
-            <Route path="/" element={<Home {...sharedPageProps} />} />
-            <Route path="/work" element={<Work {...sharedPageProps} />} />
-            <Route
-              path="/playground"
-              element={<Playground {...sharedPageProps} />}
-            />
-            <Route path="/blog" element={<Blog {...sharedPageProps} />} />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<Home {...sharedPageProps} />} />
+              <Route path="/work" element={<Work {...sharedPageProps} />} />
+              <Route
+                path="/playground"
+                element={<Playground {...sharedPageProps} />}
+              />
+              <Route path="/blog" element={<Blog {...sharedPageProps} />} />
+            </Routes>
 
-          <Footer />
-        </div>
-      </motion.div>
+            <Footer />
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }
