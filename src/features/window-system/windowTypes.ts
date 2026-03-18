@@ -5,6 +5,7 @@ export type WindowInstance = {
   x: number;
   y: number;
   width: number;
-  height: number;
+  height?: number;
   zIndex: number;
+  isOpen: boolean;
 };

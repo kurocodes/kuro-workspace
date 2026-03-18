@@ -6,6 +6,7 @@ import Scene from "../../features/canvas/Scene";
 import { AnimatePresence } from "motion/react";
 import Window from "../ui/window/Window";
 import { useLoadingStore } from "../../features/loading/loadingStore";
+import { useEffect } from "react";
 
 export default function Desktop({
   backgroundImage,
@@ -19,9 +20,15 @@ export default function Desktop({
   registry: Record<string, WindowDefinition>;
 }) {
   const finish = useLoadingStore((s) => s.finish);
-  const { windows, close, toggle, move, focus } = useWindowManager();
+  const { windows, open, close, toggle, move, focus } = useWindowManager();
 
   useKeyboard({ toggleInteractive });
+
+  useEffect(() => {
+    Object.values(registry)
+      .filter((def) => def.defaultOpen)
+      .forEach((def) => open(def));
+  }, [open, registry]);
 
   return (
     <div
@@ -64,7 +71,7 @@ export default function Desktop({
 
       <AnimatePresence>
         {windows
-          .filter((instance) => registry[instance.id])
+          .filter((instance) => instance.isOpen && registry[instance.id])
           .map((instance) => {
             const definition = registry[instance.id];
 

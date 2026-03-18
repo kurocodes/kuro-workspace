@@ -19,9 +19,23 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
   topZ: 1,
 
   openWindow: (definition) => {
-    const exists = get().windows.find((w) => w.id === definition.id);
-    if (exists) return;
+    const existing = get().windows.find((w) => w.id === definition.id);
+    if (existing?.isOpen) return;
 
+    // if window was opened before - just flip it back open and re-focus
+    if (existing) {
+      const newZ = get().topZ + 1;
+      set((state) => ({
+        windows: state.windows.map((w) =>
+          w.id === definition.id ? { ...w, isOpen: true, zIndex: newZ } : w,
+        ),
+        topZ: newZ,
+      }));
+
+      return;
+    }
+
+    // new window - create instance
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
 
@@ -31,14 +45,13 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
       ? Math.min(screenWidth - 32, definition.defaultWidth)
       : definition.defaultWidth;
 
-    const baseHeight = definition.defaultHeight ?? 400;
-    const height = isMobile
-      ? Math.min(screenHeight - 120, baseHeight)
-      : baseHeight;
+    const height =
+      isMobile && definition.defaultHeight !== undefined
+        ? Math.min(screenHeight - 120, definition.defaultHeight)
+        : definition.defaultHeight;
 
     const x = isMobile ? 16 : (definition.defaultX ?? 100);
     const y = isMobile ? 80 : (definition.defaultY ?? 100);
-
     const newZ = get().topZ + 1;
 
     set((state) => ({
@@ -51,6 +64,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
           width,
           height,
           zIndex: newZ,
+          isOpen: true,
         },
       ],
       topZ: newZ,
@@ -59,13 +73,15 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
 
   closeWindow: (id) => {
     set((state) => ({
-      windows: state.windows.filter((w) => w.id !== id),
+      windows: state.windows.map((w) =>
+        w.id === id ? { ...w, isOpen: false } : w,
+      ),
     }));
   },
 
   toggleWindow: (definition) => {
-    const exists = get().windows.find((w) => w.id === definition.id);
-    if (exists) {
+    const existing = get().windows.find((w) => w.id === definition.id);
+    if (existing?.isOpen) {
       get().closeWindow(definition.id);
     } else {
       get().openWindow(definition);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { wallpaper } from "./assets/assets";
 import Footer from "./components/layout/footer/Footer";
 import Navbar from "./components/layout/Navbar";
@@ -25,6 +25,20 @@ export default function App() {
     isInteractive,
     toggleInteractive,
   };
+
+  useEffect(() => {
+    if (!isInteractive) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey) e.preventDefault();
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, [isInteractive]);
 
   return (
     <div className="w-screen h-dvh overflow-hidden bg-surface font-ui">
@@ -57,10 +71,3 @@ export default function App() {
     </div>
   );
 }
-
-// Optimize the animations and canvas effect
-// Find out if we can use webgpu or something like that for the canvas effect
-// Optimize the images and image loading for both wallpaper and display
-// Complete the about and contact window
-// add a resume window
-// implement routes for the pages and start working on work page

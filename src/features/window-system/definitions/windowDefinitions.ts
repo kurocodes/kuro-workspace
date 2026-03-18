@@ -12,4 +12,5 @@ export type WindowDefinition = {
   defaultY?: number;
   backgroundImage?: string;
   renderContent?: () => ReactNode;
+  defaultOpen?: boolean;
 };
