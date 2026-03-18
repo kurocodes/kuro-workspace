@@ -1,3 +1,5 @@
+const EMAIL = "vaishnavdeepak3112@gmail.com";
+
 export default function ContactContent() {
   return (
     <div className="px-4 py-2.5 text-outline text-sm leading-4.5">
@@ -5,10 +7,10 @@ export default function ContactContent() {
         <p>
           <span>For work, collaborations, or just saying hi — </span>
           <a
-            href="mailto:youremail@example.com"
+            href={`mailto:${EMAIL}`}
             className="inline-flex items-center gap-1 underline"
           >
-            <span className="font-medium">youremail@example.com</span>
+            <span className="font-medium">{EMAIL}</span>
             <svg
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
