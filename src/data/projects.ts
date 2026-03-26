@@ -1,7 +1,7 @@
 import { project_imgs } from "../assets/assets";
-import type { ProjectData } from "../features/window-system/definitions/workWindowDefinitions";
+import type { ProjectData } from "../features/window-system/definitions/workWindowsDefinition";
 
-export const workProjects: ProjectData[] = [
+export const projects: ProjectData[] = [
   {
     id: "kuro-sketch",
     title: "KuroSketch",

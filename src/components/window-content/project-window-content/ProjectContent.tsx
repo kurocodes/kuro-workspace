@@ -1,4 +1,4 @@
-import type { ProjectData } from "../../../features/window-system/definitions/workWindowDefinitions";
+import type { ProjectData } from "../../../features/window-system/definitions/workWindowsDefinition";
 
 export default function ProjectContent({ project }: { project: ProjectData }) {
   return (
@@ -11,9 +11,9 @@ export default function ProjectContent({ project }: { project: ProjectData }) {
           }
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full"
+          className="block w-full aspect-940/447 bg-outline/5 overflow-hidden"
         >
-          <img src={project.thumbnail} alt={project.title} className="" />
+          <img src={project.thumbnail} alt={project.title} className="w-full h-full object-contain" />
         </a>
 
         <div className="flex flex-col gap-2">

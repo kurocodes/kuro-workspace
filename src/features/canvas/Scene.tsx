@@ -113,7 +113,7 @@ export default function Scene({
           setProgress(progress);
           lastProgress = progress;
         }
-        for (let x = 0; x < w; x += SPACING) {
+        for (let x = 0; x <= w; x += SPACING) {
           const index = (y * w + x) * 4;
           particles.push({
             x,

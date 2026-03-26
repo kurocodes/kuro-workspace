@@ -1,4 +1,4 @@
-import type { WindowDefinition } from "./windowDefinitions";
+import type { WindowDefinition } from "./windowsDefinition";
 
 export type ProjectLink = {
   label: string;

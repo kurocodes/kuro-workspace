@@ -1,4 +1,4 @@
-import type { WindowDefinition } from "../definitions/windowDefinitions";
+import type { WindowDefinition } from "../definitions/windowsDefinition";
 
 export const blogWindowRegistry: Record<string, WindowDefinition> = {
   blogOne: {

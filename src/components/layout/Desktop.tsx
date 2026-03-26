@@ -1,4 +1,4 @@
-import type { WindowDefinition } from "../../features/window-system/definitions/windowDefinitions";
+import type { WindowDefinition } from "../../features/window-system/definitions/windowsDefinition";
 import { useWindowManager } from "../../features/window-system/useWindowManager";
 import { useKeyboard } from "../../hooks/useKeyboard";
 import DesktopIcon from "../ui/icons/DesktopIcon";

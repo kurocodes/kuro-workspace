@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { WindowId, WindowInstance } from "./windowTypes";
-import type { WindowDefinition } from "./definitions/windowDefinitions";
+import type { WindowDefinition } from "./definitions/windowsDefinition";
 
 type WindowStore = {
   windows: WindowInstance[];

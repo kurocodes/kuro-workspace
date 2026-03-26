@@ -1,4 +1,4 @@
-import type { WindowDefinition } from "../definitions/windowDefinitions";
+import type { WindowDefinition } from "../definitions/windowsDefinition";
 import AboutContent from "../../../components/window-content/home-window-content/AboutContent";
 import ContactContent from "../../../components/window-content/home-window-content/ContactContent";
 

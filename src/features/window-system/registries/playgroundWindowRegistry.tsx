@@ -1,22 +1,22 @@
-import type { WindowDefinition } from "../definitions/windowDefinitions";
+import ComponentContent from "../../../components/window-content/playground-window-content/ComponentContent";
+import { components } from "../../../data/components";
+import type { PlaygroundWindowDefinition } from "../definitions/playgroundWindowsDefinition";
 
-export const playgroundWindowRegistry: Record<string, WindowDefinition> = {
-  experimentOne: {
-    id: "experimentOne",
-    icon: "folder",
-    title: "Experiment One",
-    defaultWidth: 600,
-    defaultHeight: 450,
-    defaultX: 140,
-    defaultY: 90,
-  },
-  componentOne: {
-    id: "componentOne",
-    icon: "folder",
-    title: "Component One",
-    defaultWidth: 500,
-    defaultHeight: 400,
-    defaultX: 220,
-    defaultY: 120,
-  },
-};
+export const playgroundWindowRegistry: Record<
+  string,
+  PlaygroundWindowDefinition
+> = Object.fromEntries(
+  components.map((component, index) => [
+    component.id,
+    {
+      id: component.id,
+      icon: "folder",
+      title: component.title,
+      defaultWidth: 300,
+      defaultX: 140 + index * 60,
+      defaultY: 90 + index * 40,
+      renderContent: () => <ComponentContent component={component} />,
+      component,
+    },
+  ]),
+);
