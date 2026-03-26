@@ -10,6 +10,36 @@ type Particle = {
   color: string;
 };
 
+async function buildParticlesAsync(
+  w: number,
+  h: number,
+  data: ImageDataArray,
+  particles: Particle[],
+  setProgress: (p: number) => void,
+) {
+  let lastProgress = 0;
+  for (let y = 0; y < h; y += SPACING) {
+    const progress = Math.floor((y / h) * 100);
+    if (progress !== lastProgress) {
+      setProgress(progress);
+      lastProgress = progress;
+    }
+    for (let x = 0; x <= w; x += SPACING) {
+      const index = (y * w + x) * 4;
+      particles.push({
+        x,
+        y,
+        originX: x,
+        originY: y,
+        radius: SPACING * 0.45,
+        color: `rgb(${data[index]}, ${data[index + 1]}, ${data[index + 2]})`,
+      });
+    }
+
+    await new Promise(requestAnimationFrame);
+  }
+}
+
 const FAR = -10000;
 const SPACING = 12;
 const INFLUENCE = 90;
@@ -38,7 +68,10 @@ export default function Scene({
     const canvas = canvasRef.current;
     if (!canvas || !image) return;
 
-    const ctx = canvas.getContext("2d", { alpha: true, willReadFrequently: true });
+    const ctx = canvas.getContext("2d", {
+      alpha: true,
+      willReadFrequently: true,
+    });
     if (!ctx) return;
 
     let animationId = 0;
@@ -61,7 +94,7 @@ export default function Scene({
     window.addEventListener("pointerleave", handlePointerLeave);
 
     // All canvas setup in one plain function — callable anytime
-    function rebuild(img: HTMLImageElement) {
+    async function rebuild(img: HTMLImageElement) {
       particles = [];
 
       // Read live rect HERE — this is the fresh size after reflow
@@ -105,26 +138,8 @@ export default function Scene({
       // Sample pixels and build particles
       const imageData = ctx!.getImageData(0, 0, w, h);
       const data = imageData.data;
-      let lastProgress = 0;
 
-      for (let y = 0; y < h; y += SPACING) {
-        const progress = Math.floor((y / h) * 100);
-        if (progress !== lastProgress) {
-          setProgress(progress);
-          lastProgress = progress;
-        }
-        for (let x = 0; x <= w; x += SPACING) {
-          const index = (y * w + x) * 4;
-          particles.push({
-            x,
-            y,
-            originX: x,
-            originY: y,
-            radius: SPACING * 0.45,
-            color: `rgb(${data[index]}, ${data[index + 1]}, ${data[index + 2]})`,
-          });
-        }
-      }
+      await buildParticlesAsync(w, h, data, particles, setProgress);
 
       ctx!.clearRect(0, 0, w, h);
     }
@@ -133,10 +148,16 @@ export default function Scene({
     const img = new Image();
     img.src = image;
 
-    const onLoad = () => {
+    const onLoad = async () => {
       if (!isMounted) return;
-      rebuild(img);
-      onReady?.();
+
+      setProgress(0);
+      await rebuild(img);
+      setProgress(100);
+
+      setTimeout(() => {
+        onReady?.();
+      }, 200);
 
       // Animation loop — always reads from the live `particles` array ref
       const animate = () => {
@@ -147,8 +168,12 @@ export default function Scene({
 
         ctx!.clearRect(0, 0, w, h);
 
-        pointerRef.current.x += (pointerTargetRef.current.x - pointerRef.current.x) * POINTER_SMOOTHING;
-        pointerRef.current.y += (pointerTargetRef.current.y - pointerRef.current.y) * POINTER_SMOOTHING;
+        pointerRef.current.x +=
+          (pointerTargetRef.current.x - pointerRef.current.x) *
+          POINTER_SMOOTHING;
+        pointerRef.current.y +=
+          (pointerTargetRef.current.y - pointerRef.current.y) *
+          POINTER_SMOOTHING;
 
         for (const p of particles) {
           const dx = p.x - pointerRef.current.x;
@@ -166,7 +191,12 @@ export default function Scene({
           p.y += (p.originY - p.y) * RETURN_SPEED;
 
           ctx!.fillStyle = p.color;
-          ctx!.fillRect(p.x - p.radius, p.y - p.radius, p.radius * 2, p.radius * 2);
+          ctx!.fillRect(
+            p.x - p.radius,
+            p.y - p.radius,
+            p.radius * 2,
+            p.radius * 2,
+          );
         }
 
         animationId = requestAnimationFrame(animate);
