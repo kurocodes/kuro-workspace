@@ -20,6 +20,7 @@ export default function Desktop({
   registry: Record<string, WindowDefinition>;
 }) {
   const finish = useLoadingStore((s) => s.finish);
+  const start = useLoadingStore((s) => s.start);
   const { windows, open, close, toggle, move, focus } = useWindowManager();
 
   useKeyboard({ toggleInteractive });
@@ -55,7 +56,7 @@ export default function Desktop({
       )} */}
 
       {backgroundImage && isInteractive && (
-        <Scene image={backgroundImage} onReady={finish} />
+        <Scene image={backgroundImage} onReady={finish} onStart={start} />
       )}
 
       <div className="absolute p-2 sm:p-4 sm:h-full flex sm:flex-col flex-wrap gap-6">

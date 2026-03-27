@@ -7,7 +7,13 @@ export const components: ComponentData[] = [
     description: `A smooth, stacked notification system powered by a reusable layout engine.
     Cards collapse into a layered stack and expand fluidly on interaction, creating a sense of depth and motion without overwhelming the UI.`,
     tags: ["React", "Animation", "Stack", "Hover", "UI", "Motion"],
-    links: [{ label: "GitHub", href: "https://github.com/kurocodes/Stacklet" }],
+    links: [
+      { label: "GitHub", href: "https://github.com/kurocodes/Stacklet" },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/stacklet-notifications",
+      },
+    ],
   },
   {
     id: "stacklet-avatar-stack",
@@ -15,7 +21,27 @@ export const components: ComponentData[] = [
     description: `A compact avatar stack that expands into a fully visible list with soft, layered animations.
     Perfect for representing users, teams, or participants with a clean and interactive presentation.`,
     tags: ["React", "Avatar", "Stack", "Hover", "UI", "Motion"],
-    links: [{ label: "GitHub", href: "https://github.com/kurocodes/Stacklet" }],
+    links: [
+      { label: "GitHub", href: "https://github.com/kurocodes/Stacklet" },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/stacklet-avatar-stack",
+      },
+    ],
+  },
+  {
+    id: "morph-menu",
+    title: "Morph Menu",
+    description: `A fluid, morphing menu that transforms seamlessly from a button into a contextual panel.
+    Adapts direction and alignment dynamically, creating a polished, tactile interaction that feels alive.`,
+    tags: ["React", "Menu", "Animation", "Motion", "Interaction", "UI"],
+    links: [
+      { label: "GitHub", href: "https://github.com/kurocodes/Morph-Menu" },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/morph-menu",
+      },
+    ],
   },
   {
     id: "interactive-card-stack",
@@ -27,6 +53,10 @@ export const components: ComponentData[] = [
       {
         label: "GitHub",
         href: "https://github.com/kurocodes/interactive-card-stack",
+      },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/interactive-card-stack",
       },
     ],
   },
@@ -40,6 +70,10 @@ export const components: ComponentData[] = [
       {
         label: "GitHub",
         href: "https://github.com/kurocodes/Interactive-Cursor-Effect",
+      },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/interactive-cursor",
       },
     ],
   },
@@ -55,6 +89,10 @@ export const components: ComponentData[] = [
         label: "GitHub",
         href: "https://github.com/kurocodes/Scroll-Focus-List",
       },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/scroll-focus-list",
+      },
     ],
   },
   {
@@ -63,6 +101,12 @@ export const components: ComponentData[] = [
     description: `A tactile slider with smooth, spring-based motion and intelligent handle behavior.
     The handle dynamically adapts around text, creating a polished interaction that feels precise and responsive.`,
     tags: ["React", "Slider", "Drag", "Interaction", "Motion", "UI"],
+    links: [
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/block-slider",
+      },
+    ],
   },
   {
     id: "glide-tip-toolbar",
@@ -72,6 +116,10 @@ export const components: ComponentData[] = [
     tags: ["React", "Tooltip", "Hover", "Animation", "Motion", "UI"],
     links: [
       { label: "GitHub", href: "https://github.com/kurocodes/Glide-Tip" },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/glide-tip-toolbar",
+      },
     ],
   },
   {
@@ -82,6 +130,10 @@ export const components: ComponentData[] = [
     tags: ["React", "Tooltip", "Indicator", "Animation", "Motion", "UI"],
     links: [
       { label: "GitHub", href: "https://github.com/kurocodes/Glide-Tip" },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/glide-tip-indicator",
+      },
     ],
   },
   {
@@ -94,6 +146,10 @@ export const components: ComponentData[] = [
       {
         label: "GitHub",
         href: "https://github.com/kurocodes/Animated-Gooey-Bar",
+      },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/animated-gooey-bar",
       },
     ],
   },
@@ -108,6 +164,10 @@ export const components: ComponentData[] = [
         label: "GitHub",
         href: "https://github.com/kurocodes/Scroll-Velocity-Marquee",
       },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/scroll-velocity-marquee",
+      },
     ],
   },
   {
@@ -118,6 +178,10 @@ export const components: ComponentData[] = [
     tags: ["React", "Hover", "Animation", "Motion", "Interaction", "UI"],
     links: [
       { label: "GitHub", href: "https://github.com/kurocodes/Motion-Dock" },
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/motion-dock",
+      },
     ],
   },
   {
@@ -126,5 +190,11 @@ export const components: ComponentData[] = [
     description: `A layered text animation where characters transition in a staggered sequence on hover, creating a smooth vertical reveal effect.
     Each letter moves independently, producing a rhythmic, wave-like motion that feels clean, responsive, and expressive.`,
     tags: ["React", "Text", "Hover", "Animation", "Motion", "UI"],
+    links: [
+      {
+        label: "Try it Yourself",
+        href: "https://kuro-motion-lab.vercel.app/staggered-text",
+      },
+    ],
   },
 ];

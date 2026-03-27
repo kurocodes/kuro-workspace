@@ -53,11 +53,13 @@ export default function Scene({
   alignX = "center",
   alignY = "center",
   onReady,
+  onStart,
 }: {
   image?: string;
   alignX?: "left" | "center" | "right";
   alignY?: "top" | "center" | "bottom";
   onReady?: () => void;
+  onStart?: () => void;
 }) {
   const { setProgress } = useLoadingStore();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -151,7 +153,7 @@ export default function Scene({
     const onLoad = async () => {
       if (!isMounted) return;
 
-      setProgress(0);
+      onStart?.();
       await rebuild(img);
       setProgress(100);
 
