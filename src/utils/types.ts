@@ -3,3 +3,9 @@ export type PageProps = {
     isInteractive: boolean;
     toggleInteractive?: () => void;
 }
+
+export type MarqueeItem = {
+    src: string;
+    type: "component" | "project";
+    id: string;
+}
