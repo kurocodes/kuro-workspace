@@ -232,7 +232,7 @@ export default function Scene({
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerleave", handlePointerLeave);
     };
-  }, [image, alignX, alignY, onReady, setProgress]);
+  }, [image, alignX, alignY, onReady, onStart, setProgress]);
 
   return (
     <canvas

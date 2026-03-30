@@ -1,8 +1,43 @@
-import { display_imgs, display_vid, kuro } from "../../../assets/assets";
+import { useNavigate } from "react-router-dom";
+import { display_vid, kuro } from "../../../assets/assets";
+import { displayItems } from "../../../data/display";
 import ImageMarquee from "./ImageMarquee";
 import Links from "./Links";
+import { useWindowManager } from "../../../features/window-system/useWindowManager";
+import type { MarqueeItem } from "../../../utils/types";
+import { workWindowRegistry } from "../../../features/window-system/registries/workWindowRegistry";
+import { playgroundWindowRegistry } from "../../../features/window-system/registries/playgroundWindowRegistry";
 
 export default function Footer() {
+  const navigate = useNavigate();
+  const { open } = useWindowManager();
+
+  const handleMarqueeClick = (item: MarqueeItem) => {
+    if (item.type === "project") {
+      navigate("/work");
+
+      const project = workWindowRegistry[item.id];
+
+      if (project) {
+        setTimeout(() => {
+          open(project);
+        }, 100);
+      }
+    }
+
+    if (item.type === "component") {
+      navigate("/playground");
+
+      const component = playgroundWindowRegistry[item.id];
+
+      if (component) {
+        setTimeout(() => {
+          open(component);
+        }, 100);
+      }
+    }
+  };
+
   return (
     <div className="relative w-full h-18 flex justify-between items-center border-t-4 border-outline bg-outline">
       <div className="relative h-full place-content-center flex-1 rounded-e-card rounded-bl-card bg-surface overflow-hidden">
@@ -17,7 +52,7 @@ export default function Footer() {
 
         {/* Infinite Image Marquee */}
         <div className="absolute inset-0 flex items-center overflow-hidden">
-          <ImageMarquee images={display_imgs} />
+          <ImageMarquee items={displayItems} onItemClick={handleMarqueeClick} />
         </div>
       </div>
 
