@@ -1,10 +1,8 @@
 export default function FolderIcon() {
   return (
     <svg
-      width="103"
-      height="67"
       viewBox="0 0 103 67"
-      className="text-outline"
+      className="text-outline w-25.75 h-16.75 max-sm:w-18.25 max-sm:h-9.25"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

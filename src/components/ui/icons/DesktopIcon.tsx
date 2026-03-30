@@ -30,11 +30,11 @@ export default function DesktopIcon({
   return (
     <div
       onPointerDown={handlePointerDown}
-      className="flex flex-col items-center gap-2 w-28 relative z-1 cursor-pointer text-center select-none"
+      className="flex flex-col items-center gap-2 max-sm:w-22 w-28 relative z-1 cursor-pointer text-center select-none"
     >
       {icon === "folder" && <FolderIcon />}
 
-      <div className="max-w-[90%] bg-paper border-medium border-outline rounded-card px-2 text-sm text-outline font-medium line-clamp-2 wrap-break-word">
+      <div className="max-w-[90%] max-sm:max-w-[98%] bg-paper border-medium border-outline rounded-card px-2 max-sm:text-xs text-sm text-outline font-medium line-clamp-2 wrap-break-word">
         {title}
       </div>
     </div>
